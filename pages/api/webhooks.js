@@ -9,6 +9,7 @@ function verifySignature(req, payload) {
 }
 
 export default function handler(req, res) {
+  const payload = JSON.stringify(req.body);
   if (!verifySignature(req, payload)) {
     return send(res, 403, {
       code: `invalid_signature`,
