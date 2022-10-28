@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+const crypto = require("crypto");
 
 function verifySignature(req, payload) {
   const signature = crypto
@@ -11,7 +12,7 @@ function verifySignature(req, payload) {
 export default function handler(req, res) {
   const payload = JSON.stringify(req.body);
   if (!verifySignature(req, payload)) {
-    return send(res, 403, {
+    return res.status(403).json({
       code: `invalid_signature`,
       error: `signature didn't match`,
     });
