@@ -3,7 +3,7 @@ const crypto = require("crypto");
 
 function verifySignature(req, payload) {
   const signature = crypto
-    .createHmac("sha1", "PmvRQdv8CY9RyfPFpdRmv8KY")
+    .createHmac("sha1", process.env.SECURITY_CODE)
     .update(payload)
     .digest("hex");
   return signature === req.headers["x-vercel-signature"];
