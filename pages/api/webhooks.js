@@ -3,7 +3,7 @@ const crypto = require("crypto");
 
 function verifySignature(req, payload) {
   const signature = crypto
-    .createHmac("sha1", "ybzbArMmNYquPvN6Q05EOGqJ")
+    .createHmac("sha1", "PmvRQdv8CY9RyfPFpdRmv8KY")
     .update(payload)
     .digest("hex");
   return signature === req.headers["x-vercel-signature"];
@@ -11,12 +11,12 @@ function verifySignature(req, payload) {
 
 export default function handler(req, res) {
   const payload = JSON.stringify(req.body);
-  // if (!verifySignature(req, payload)) {
-  //   return res.status(403).json({
-  //     code: `invalid_signature`,
-  //     error: `signature didn't match`,
-  //   });
-  // }
+  if (!verifySignature(req, payload)) {
+    return res.status(403).json({
+      code: `invalid_signature`,
+      error: `signature didn't match`,
+    });
+  }
   console.log(req.body);
   res.status(200).json(req.body);
 }
